@@ -1,6 +1,6 @@
 # Mortgage Loan Approval Risk Assessment System
 
-'''' tree 
+```tree 
 credit-risk-profit-optimization/
 ├── data/
 │   ├── README.md          # describes required CSVs (no raw data)
