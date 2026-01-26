@@ -1,3 +1,4 @@
+#src/metrics.py 
 
 from sklearn.metrics import mean_squared_log_error
 from sklearn.metrics import roc_auc_score
@@ -76,6 +77,6 @@ def alg1(x):
     '''if the probability of defaulting on a loan is less than 20%
 then we can issue the loan at a certain __price_predict '''
     if x['__churn_prob'] < 0.2:
-
         return x['__price_predict']
+    return 0.0
     

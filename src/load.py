@@ -1,25 +1,37 @@
-from sklearn.model_selection import train_test_split
+#src/load.py 
 
-"""
-Here we are going to load and split  the data
-
-"""
 from sklearn.model_selection import train_test_split
 import pandas as pd 
 import numpy as np 
 from pathlib import Path
 
-DATA_DIR = Path('data/raw')
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
-train_raw = pd.read_csv(Path('data/raw/train_data.csv'))
-test_raw = pd.read_csv(Path('data/raw/test_data.csv'))
 
-#split the data 
-train, valid, y_train_price, y_valid_price, y_train_churn, y_valid_churn = train_test_split(
-    train_raw, train_raw['__price_doc'], train_raw['__churn'],
-    test_size=0.5, random_state=42,
-)
+def load_data(test_size=0.5, random_state=42):
+    """
+    Load raw data and split into train / validation sets
+    """
 
-print(train.shape, valid.shape,
-      y_train_price.shape, y_valid_price.shape,
-      y_train_churn.shape, y_valid_churn.shape)
+    train_all = pd.read_csv(DATA_DIR / "train_data.csv")
+    test = pd.read_csv(DATA_DIR / "test_data.csv")
+
+    train, valid, y_train_price, y_valid_price, y_train_churn, y_valid_churn = train_test_split(
+        train_all,
+        train_all["__price_doc"],
+        train_all["__churn"],
+        test_size=test_size,
+        random_state=random_state,
+    )
+
+    return (
+        train,
+        valid,
+        train_all, 
+        test,
+        y_train_price,
+        y_valid_price,
+        y_train_churn,
+        y_valid_churn,
+    )

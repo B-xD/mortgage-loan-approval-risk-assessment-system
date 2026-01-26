@@ -1,3 +1,4 @@
+#src/config.py 
 
 #create a list of selected features
 INPUT_FEATURES_CHURN = ['contacts_count_12_mon',

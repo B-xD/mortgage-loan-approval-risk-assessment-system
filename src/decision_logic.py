@@ -1,31 +1,46 @@
-from sklearn.metrics import mean_squared_log_error
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import mean_absolute_percentage_error
-from load import train, valid, train_raw, test_raw
+#src/decision_logic.py
+
 from metrics import calc_all_metrics, alg1
 import pandas as pd 
-from train_churn import pipe_clf, INPUT_FEATURES_CHURN
-from train_price import pipe_reg, INPUT_FEATURES_PRICE
 
-#add CHURN predictions to the data
-train_raw['__churn_prob'] = pipe_clf.predict_proba(train_raw[INPUT_FEATURES_CHURN])[:, 1]
-train['__churn_prob'] = pipe_clf.predict_proba(train[INPUT_FEATURES_CHURN])[:, 1]
-valid['__churn_prob'] = pipe_clf.predict_proba(valid[INPUT_FEATURES_CHURN])[:, 1]
-test_raw['__churn_prob'] = pipe_clf.predict_proba(test_raw[INPUT_FEATURES_CHURN])[:, 1]
 
-#add PRICE predictions to the data 
-train_raw['__price_predict'] = pipe_reg.predict(train_raw[INPUT_FEATURES_PRICE])
-train['__price_predict'] = pipe_reg.predict(train[INPUT_FEATURES_PRICE])
-valid['__price_predict'] = pipe_reg.predict(valid[INPUT_FEATURES_PRICE])
-test_raw['__price_predict'] = pipe_reg.predict(test_raw[INPUT_FEATURES_PRICE])
+def apply_decision_rules(data: pd.DataFrame, churn_model, price_model, 
+                         churn_features: list, price_features: list, max_account=50_000):
+    """
+    Apply ML predictions and decision rules to a dataframe.
 
-train_raw['__priority'] = train_raw.apply(alg1, axis=1)
-train['__priority'] = train.apply(alg1, axis=1)
-valid['__priority'] = valid.apply(alg1, axis=1)
-test_raw['__priority'] = test_raw.apply(alg1, axis=1)
+    Args:
+        data: pd.DataFrame (train, valid, test)
+        churn_model: trained pipeline for churn prediction
+        price_model: trained pipeline for price prediction
+        churn_features: list of columns for churn prediction
+        price_features: list of columns for price prediction
+        max_account: maximum account limit for financial metric
 
-    
-metrics = pd.DataFrame(data=[calc_all_metrics(train),
-                             calc_all_metrics(valid)],
-                       index=['train', 'valid']).T
-print(metrics)
+    Returns:
+        data_copy: pd.DataFrame with added predictions and priority
+        metrics: pd.DataFrame with calculated metrics
+        financial_outcome: pd.DataFrame with financial outcome
+    """
+    data_copy = data.copy()
+
+    # Add churn predictions
+    data_copy['__churn_prob'] = churn_model.predict_proba(data_copy[churn_features])[:, 1]
+
+    # Add price predictions
+    data_copy['__price_predict'] = price_model.predict(data_copy[price_features])
+
+    # Apply loan issuance priority
+    data_copy['__priority'] = data_copy.apply(alg1, axis=1)
+
+    # Calculate metrics
+    metrics = pd.DataFrame(data=[calc_all_metrics(data_copy)],
+                           index=['dataset']).T
+
+    financial_outcome = pd.DataFrame(
+        data=[calc_all_metrics(data_copy, max_account=max_account)],
+        index=['dataset_financial']
+    ).T
+
+    return data_copy, metrics, financial_outcome
+
