@@ -7,7 +7,7 @@ import pandas as pd
 def evaluate_system(train_all: pd.DataFrame, 
                     y_train_churn, y_valid_churn, y_train_price, y_valid_price, 
                     y_pred_churn_train, y_pred_churn_valid, 
-                    y_pred_price_train, y_pred_price_valid):
+                    y_pred_price_train, y_pred_price_valid) -> float:
     """
     Evaluates churn and price models using provided ground truths and predictions.
     """

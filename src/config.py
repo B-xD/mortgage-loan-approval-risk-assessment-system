@@ -1,6 +1,13 @@
 #src/config.py 
 
-#create a list of selected features
+"""
+In this file we have two lists of all the features we selected both for 
+the classification and regression tasks 
+The features were selected using random variable method for Regression 
+and feature importance for classification. 
+For more information about the feature selection method, please check notebook 4_Feature_selection.ipynb
+"""
+
 INPUT_FEATURES_CHURN = ['contacts_count_12_mon',
  'months_inactive_12_mon',
  'total_ct_chng_q4_q1',

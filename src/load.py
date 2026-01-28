@@ -9,7 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
 
-def load_data(test_size=0.5, random_state=42):
+def load_data(test_size=0.5, random_state=42) -> pd.DataFrame:
     """
     Load raw data and split into train / validation sets
     """

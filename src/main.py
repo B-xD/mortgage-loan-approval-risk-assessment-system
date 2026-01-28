@@ -16,18 +16,18 @@ def main():
     churn_target = '__churn'
     price_target = '__price_doc'
 #----------------------------------------------------------------
-# 1. LOAD THE DATA 
+# 1. LOAD THE DATA (src/load.py)
 # ---------------------------------------------------------------
     train, valid, train_all,  test, y_train_price, y_valid_price, y_train_churn, y_valid_churn,= load_data()
 
 #----------------------------------------------------------------
-# 2. SELECT FEATURES 
+# 2. SELECT FEATURES (src/features)
 # ---------------------------------------------------------------
     categorical_cols_churn, numerical_cols_churn = select_variables(train, INPUT_FEATURES_CHURN)
     categorical_cols_price, numerical_cols_price = select_variables(train, INPUT_FEATURES_PRICE)
 
 #----------------------------------------------------------------
-# 3. APPLY TRANSFORMATIONS TO THE DATA 
+# 3. APPLY TRANSFORMATIONS TO THE DATA (src/preprocessing.py)
 # ---------------------------------------------------------------
     transformed_churn = transformer(categorical_cols_churn, numerical_cols_churn)
     transformed_price = transformer(categorical_cols_price, numerical_cols_price)
@@ -35,7 +35,7 @@ def main():
     transformed_price.fit(train[INPUT_FEATURES_PRICE])
 
 #----------------------------------------------------------------
-# 4. TRAIN MODELS 
+# 4. TRAIN MODELS (src/train_churn.py and train_price.py)
 # ---------------------------------------------------------------
     churn_model = train_churn_model(transformed_churn, train[INPUT_FEATURES_CHURN], train[churn_target])
     price_model = train_price_model(transformed_price, train[INPUT_FEATURES_PRICE], train[price_target])
@@ -53,7 +53,7 @@ def main():
     train_all["__price_predict"]= price_model.predict(train_all[INPUT_FEATURES_PRICE])
 
 #----------------------------------------------------------------
-# 6. EVALUATE MODEL'S PERFORMANCE 
+# 6. EVALUATE MODEL'S PERFORMANCE (src/evaluate.py)
 # ---------------------------------------------------------------
     evaluation_results = evaluate_system(
         train_all=train_all,
@@ -70,7 +70,7 @@ def main():
     print("\n--- Evaluation Results ---")
     print(evaluation_results)
 #----------------------------------------------------------------
-# 7. APPLY DECISION RULES 
+# 7. APPLY DECISION RULES (src/decison_logic.py)
 # ---------------------------------------------------------------
     decisions, metrics_df, financial_outcome_df = apply_decision_rules(
         data=train_all,

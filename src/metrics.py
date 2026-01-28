@@ -3,18 +3,20 @@
 from sklearn.metrics import mean_squared_log_error
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import mean_absolute_percentage_error
+from typing import Any
+import pandas as pd 
 
 
-def metric_for_price(y_true, y_pred):
+def metric_for_price(y_true:float, y_pred:float) -> float:
     """ mean_squared_log_error. bigger is better """
     return round(-mean_squared_log_error(y_true=y_true, y_pred=y_pred), 3)
 
 
-def metric_for_churn(y_true, y_score):
+def metric_for_churn(y_true:float, y_score:float) -> float:
     """ roc_auc_score. bigger is better """
     return round(roc_auc_score(y_true=y_true, y_score=y_score), 3)
 
-def calc_all_metrics(data, max_account=25e3):
+def calc_all_metrics(data: pd.DataFrame, max_account=25e3) -> Any:
 
     def is_credit_issued(x):
         ratio = x['__price_predict'] / x['__price_doc']
@@ -73,7 +75,7 @@ def calc_all_metrics(data, max_account=25e3):
         'price_mape': round(-mean_absolute_percentage_error(y_true=s['__price_doc'], y_pred=s['__price_predict']), 3),
     }
 
-def alg1(x):
+def alg1(x:Any) -> Any:
     '''if the probability of defaulting on a loan is less than 20%
 then we can issue the loan at a certain __price_predict '''
     if x['__churn_prob'] < 0.2:

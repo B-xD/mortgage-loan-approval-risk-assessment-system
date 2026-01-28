@@ -32,4 +32,5 @@ def transformer(categorical_cols: List[str], numerical_cols: List[float]) -> Col
     ('numerical', numerical_pipeline, numerical_cols)
     ])
 
+
     return col_transformer

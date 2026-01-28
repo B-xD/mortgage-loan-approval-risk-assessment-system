@@ -1,10 +1,12 @@
 #src/train_churn.py 
 
 from xgboost import XGBClassifier
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, Pipeline
+import pandas as pd 
 
 
-def train_churn_model(transformed_data, feature_col, target):
+
+def train_churn_model(transformed_data: pd.DataFrame, feature_col: list, target: pd.DataFrame) -> Pipeline:
     """
 instantiate a pipeline with a XGBoost model for churn 
 """
