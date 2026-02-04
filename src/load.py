@@ -35,3 +35,4 @@ def load_data(test_size=0.5, random_state=42) -> pd.DataFrame:
         y_train_churn,
         y_valid_churn,
     )
+

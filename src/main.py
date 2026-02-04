@@ -1,6 +1,7 @@
 #src/main.py 
 
 #system orchestrator
+import joblib
 import pandas as pd
 from load import load_data
 from train_churn import train_churn_model
@@ -87,5 +88,9 @@ def main():
     print("\n--- Financial Outcome DataFrame ---")
     print(financial_outcome_df)
 
+    joblib.dump(churn_model, 'churn_model.joblib')
 if __name__ == "__main__":
+    #save the trained model 
+    
     main()
+

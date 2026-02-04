@@ -21,6 +21,8 @@ instantiate a pipeline with a XGBoost model for churn
 
     return pipe
 
+if __name__ == '__main__':
 
+    train_churn_model()
 
 
