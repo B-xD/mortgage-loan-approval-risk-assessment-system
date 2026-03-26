@@ -2,6 +2,7 @@
 
 #system orchestrator
 import joblib
+import json
 import pandas as pd
 from load import load_data
 from train_churn import train_churn_model
@@ -81,14 +82,33 @@ def main():
         price_features=INPUT_FEATURES_PRICE,
         max_account=50_000
     )
+# save predictions 
+    # Save predictions
+# Train predictions
+    train_preds = pd.DataFrame({
+    'y_pred_churn': y_pred_churn_train,
+    'y_pred_price': y_pred_price_train,
+})
+    train_preds.to_csv('outputs/train_predictions.csv', index=False)
+
+# Valid predictions
+    valid_preds = pd.DataFrame({
+    'y_pred_churn': y_pred_churn_valid,
+    'y_pred_price': y_pred_price_valid,
+})
+    valid_preds.to_csv('outputs/valid_predictions.csv', index=False)
 
     print("\n--- Metrics DataFrame ---")
     print(metrics_df)
 
     print("\n--- Financial Outcome DataFrame ---")
     print(financial_outcome_df)
+# save outputs
+    decisions.to_csv('outputs/decisions.csv', index=False)
+    json.dump(evaluation_results, open('outputs/metrics.json', 'w')) 
+    joblib.dump(churn_model, 'models/churn_model.joblib')
+    joblib.dump(price_model, 'models/price_model.joblib')
 
-    joblib.dump(churn_model, 'churn_model.joblib')
 if __name__ == "__main__":
     #save the trained model 
     
