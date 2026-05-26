@@ -1,0 +1,26 @@
+stages:
+  pipeline:
+    cmd: python src/main.py 
+    deps: 
+      - src/main.py
+      - src/config.py
+      - src/load.py
+      - src/features.py
+      - src/preprocessing.py
+      - src/train_price.py
+      - src/train_churn.py
+      - src/metrics.py
+      - src/evaluate.py 
+      - src/decision_logic.py
+      - data/raw/train_data.csv
+      - data/raw/test_data.csv
+
+    outs:
+      - models/churn_model.joblib
+      - models/price_model.joblib
+      - outputs/train_predictions.csv
+      - outputs/valid_predictions.csv
+      - outputs/decisions.csv
+    metrics:
+      - outputs/metrics.json:
+          cache: false

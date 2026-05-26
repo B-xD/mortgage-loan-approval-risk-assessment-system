@@ -1,0 +1,9 @@
+[core]
+    remote = origin
+['remote "local_storage"']
+    url = /tmp/mortgage_dvc_remote
+['remote "dagshub"']
+    url = https://dagshub.com/B-xD/mortgage-loan-approval-risk-assessment-system.dvc
+['remote "origin"']
+    url = s3://dvc
+    endpointurl = https://dagshub.com/B-xD/mortgage-loan-approval-risk-assessment-system.s3

@@ -1,0 +1,30 @@
+__pycache__/
+.ipynb_checkpoints/
+data/*.csv
+.DS_Store
+*.csv
+
+# Virtual environment
+.venv/
+
+# Data and model files (tracked by DVC, not git)
+data/
+models/
+outputs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+
+# OS
+.DS_Store
+
+# MLflow
+mlruns/

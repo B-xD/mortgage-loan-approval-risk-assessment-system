@@ -1,0 +1,78 @@
+schema: '2.0'
+stages:
+  pipeline:
+    cmd: python src/main.py
+    deps:
+    - path: data/raw/test_data.csv
+      hash: md5
+      md5: ec8f7304b062068ae9d2f5fbd78babf8
+      size: 2696806
+    - path: data/raw/train_data.csv
+      hash: md5
+      md5: e0c5cf1f65633edc25cb6274cef81692
+      size: 6161121
+    - path: src/config.py
+      hash: md5
+      md5: 7cdf93613fc5c7a07a2986de10d267cf
+      size: 1193
+    - path: src/decision_logic.py
+      hash: md5
+      md5: 5b0d88d0c6e770ac8b9663e553ef5251
+      size: 1584
+    - path: src/evaluate.py
+      hash: md5
+      md5: c782397bc2ad80677c200e5c68db7ac4
+      size: 1736
+    - path: src/features.py
+      hash: md5
+      md5: e660d2f2ce28e2052f523955aa3089ef
+      size: 1090
+    - path: src/load.py
+      hash: md5
+      md5: febfa95b3936acbae0652908ef86a1d3
+      size: 902
+    - path: src/main.py
+      hash: md5
+      md5: 101da0bfc4369414d6202c5a44b417d4
+      size: 4737
+    - path: src/metrics.py
+      hash: md5
+      md5: 372e270721583e13640a9d65d4f11f5e
+      size: 3076
+    - path: src/preprocessing.py
+      hash: md5
+      md5: 71ec64a3a402b468d114bb886319b487
+      size: 1235
+    - path: src/train_churn.py
+      hash: md5
+      md5: c846cc7f187d81ad7620686e53ccdec6
+      size: 608
+    - path: src/train_price.py
+      hash: md5
+      md5: f6c62c9b4f104a8c8252715250c95a3d
+      size: 514
+    outs:
+    - path: models/churn_model.joblib
+      hash: md5
+      md5: f1c4261067deeaa6a4962313b07c653b
+      size: 235264
+    - path: models/price_model.joblib
+      hash: md5
+      md5: b209ee6e3e970cecd75b92731fd74d94
+      size: 2289103
+    - path: outputs/decisions.csv
+      hash: md5
+      md5: 6d346f9f25cd66eb725c9e045279b10c
+      size: 7083346
+    - path: outputs/metrics.json
+      hash: md5
+      md5: 46968ce4b67fc05fcb54f4a80519db60
+      size: 131
+    - path: outputs/train_predictions.csv
+      hash: md5
+      md5: 3fc2f6ac64117c695c3cb848c1593a9a
+      size: 308519
+    - path: outputs/valid_predictions.csv
+      hash: md5
+      md5: 36219f1197462892bfd30591b2f22760
+      size: 308685
