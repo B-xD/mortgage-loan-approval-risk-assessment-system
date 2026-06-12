@@ -25,6 +25,9 @@ def load_data(test_size=0.5, random_state=42) -> pd.DataFrame:
         random_state=random_state,
     )
 
+    train = train.copy()
+    valid = valid.copy()
+    
     return (
         train,
         valid,

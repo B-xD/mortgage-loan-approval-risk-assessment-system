@@ -12,6 +12,7 @@ from decision_logic import apply_decision_rules
 from evaluate import evaluate_system
 from preprocessing import transformer
 from config import INPUT_FEATURES_CHURN, INPUT_FEATURES_PRICE
+from mlflow_utils import start_run
 
 def main():
 
@@ -109,6 +110,13 @@ def main():
     joblib.dump(churn_model, 'models/churn_model.joblib')
     joblib.dump(price_model, 'models/price_model.joblib')
 
+# mlflow tracking 
+    start_run(
+    all_churn=evaluation_results["all_churn"],
+    all_price=evaluation_results["all_price"],
+    total_profit=metrics_df.loc["total_profit", "dataset"]
+)
+    
 if __name__ == "__main__":
     #save the trained model 
     

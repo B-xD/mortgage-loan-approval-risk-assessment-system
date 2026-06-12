@@ -8,6 +8,18 @@ and feature importance for classification.
 For more information about the feature selection method, please check notebook 4_Feature_selection.ipynb
 """
 
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
+
+tracking_url = os.getenv('tracking_url')
+tracking_user = os.getenv('MLFLOW_TRACKING_USERNAME')
+tracking_password = os.getenv('MLFLOW_TRACKING_PASSWORD')
+
+
 INPUT_FEATURES_CHURN = ['contacts_count_12_mon',
  'months_inactive_12_mon',
  'total_ct_chng_q4_q1',
@@ -47,3 +59,15 @@ INPUT_FEATURES_PRICE = ['full_sq',
 '0_17_all' ,
 'cafe_sum_1500_min_price_avg']
 
+churn_model_params = {
+    "random_state": 47, 
+    "max_depth": 3, 
+    "learning_rate": 0.1 
+
+}
+
+price_model_params = {
+    "random_state": 47, 
+    "max_depth":  7, 
+    "learning_rate": 0.05
+}
