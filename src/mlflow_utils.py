@@ -4,6 +4,7 @@
 from contextlib import nullcontext
 import logging
 from typing import Any
+import joblib
 import os
 from config import price_model_params, churn_model_params, tracking_url, tracking_user, tracking_password
 logger = logging.getLogger(__name__)
@@ -26,7 +27,7 @@ def start_run(all_churn: float,
              name_of_experiment: str = "mortgage-risk-assessment",
              run_name: str | None = None,
              enable: bool = True, 
-             ):
+             ) -> Any:
     
     if not enable:
         return nullcontext()
@@ -41,20 +42,36 @@ def start_run(all_churn: float,
 
     ml.set_tracking_uri(tracking_url)
     ml.set_experiment(name_of_experiment)
+
+    run_id = None
     
-    with ml.start_run(run_name=run_name):
+    with ml.start_run(run_name=run_name) as run:
         ml.log_params({
     **{f"churn_{k}": v for k, v in churn_model_params.items()},
     **{f"price_{k}": v for k, v in price_model_params.items()}
 })
-    
+
+#log metrics    
         ml.log_metric("all_churn", all_churn )
         ml.log_metric("all_price", all_price)
         ml.log_metric('total_profit', total_profit)
 
-        ml.log_artifact("models/churn_model.joblib")
-        ml.log_artifact("models/price_model.joblib")
+# log artifacts/models
+        ml.log_artifact("models/churn_model.joblib", artifact_path="churn_model")
+        ml.log_artifact("models/price_model.joblib", artifact_path="price_model")
+        run_id_ = run.info.run_id
 
-
-
-    
+# Register AFTER the run closes
+        churn_model_loaded = joblib.load("models/churn_model.joblib")
+        price_model_loaded = joblib.load("models/price_model.joblib")
+        
+        ml.sklearn.log_model(
+            sk_model=churn_model_loaded,
+            name="mortgage-churn-model",
+            registered_model_name="mortgage-churn-model"
+        )
+        ml.sklearn.log_model(
+            sk_model=price_model_loaded,
+            name="mortgage-price-model",
+            registered_model_name="mortgage-price-model"
+        )
